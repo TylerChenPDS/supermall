@@ -1,0 +1,11 @@
+Ctrl+Alt+L 格式化代码
+Ctrl+X 删除一行
+git 命令
+git clone https://github.com/TylerChenPDS/supermall.git
+提交
+git add ./
+git commit -m "初始化项目"
+git push
+
+1，tabbar的封装
+2，导航条的封装
