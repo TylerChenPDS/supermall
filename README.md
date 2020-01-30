@@ -1,4 +1,4 @@
-# supemall
+# supermall
 
 ## Project setup
 ```
@@ -7,7 +7,7 @@ npm install
 
 ### Compiles and hot-reloads for development
 ```
-npm run serve
+npm run serve (or npm run dev (details in packages.json))
 ```
 
 ### Compiles and minifies for production

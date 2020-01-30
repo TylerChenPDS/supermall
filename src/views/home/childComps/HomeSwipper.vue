@@ -1,8 +1,8 @@
 <template>
   <swiper>
-    <swiper-item v-for="(item,index) in banners" :key="index">
+    <swiper-item v-for="(item,index) in banners" :key="item.background">
       <a :href="item.link">
-        <img :src="item.image" alt="">
+        <img :src="item.image" @load="imageLoad" alt="">
       </a>
     </swiper-item>
   </swiper>
@@ -13,6 +13,11 @@
 
   export default {
     name: "HomeSwipper",
+    data(){
+      return {
+        isLoad: false
+      }
+    },
     components: {
       Swiper, SwiperItem
     },
@@ -22,6 +27,16 @@
         default(){
           return []
         }
+      }
+    },
+    methods:{
+      imageLoad(){
+        //只需要发送一次事件
+        if(!this.isLoad){
+          this.$emit("swipperImageLoad")
+          this.isLoad = true
+        }
+
       }
     }
   }

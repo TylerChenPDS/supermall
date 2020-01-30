@@ -9,3 +9,60 @@ git push
 
 1，tabbar的封装
 2，导航条的封装
+
+安装  better-scroll
+http://ustbhuangyi.github.io/better-scroll/doc/zh-hans/#%E6%BB%9A%E5%8A%A8%E5%8E%9F%E7%90%86
+
+
+<!--监听组件的点击（或者原生事件）    必须这样-->
+<back-top @click.native="backTop"></back-top>
+
+<!--
+  ref 如果是绑定在组件中的，通过this.$ref.refname获取到的是组件对象
+  如果绑定的是普通元素，  通过this.$ref.refname获取到的元素对象。相当于document.query***()
+-->
+<div class="wrapper" ref="wrapper">
+
+函数设置默认值
+scrollTo(x,y,time=1000){
+    this.scroll.scrollTo(x,y,time)
+}
+
+js一个数组添加另外一个数组中的所有值
+var a = [1,2,3]
+var b = [4,5,6]
+a.push(...b)
+
+解决better-scroll 滑动bug
+图片加载完成后，调用scroll.refresh()
+如何监听图片监听完成
+原生：img.onload = ()=>{}
+Vue : <img :src="goodsItem.show.img" @load="imageLoad">
+GoodsListItem发送向事件总线发送一个事件，
+  this.$bus.$emit("itemImageLoad")
+Home接收并刷新
+   this.$bus.$on("itemImageLoad",()=>{
+          console.log("加载完成");
+        })
+  但默认没有this.$bus,
+    可以在main.js中添加
+    Vue.prototype.$bus = new  Vue()
+    vue圆形可以作为事件总线
+    //取消某个事件的方法
+    this.$bus.$off("itemImageLoad",this.itemImgListener)
+防抖动功能
+
+tabControl 的吸顶效果
+  滚动到多少时有吸顶效果
+  获取 组件的dom模板距离顶部的距离（需要图片加载完成后才能获取，否则获取的是不对的）
+  this.$refs.tabControl.$el.offsetTop
+  步骤：1，监听HomeSwipper中img的加载完成
+       2，加载完成后发出事件，在home中获取正确的值
+       3，在home页面再复制一份tabControl，就放到导航栏的下面。根据offsetTop的位置判断是否显示
+
+判断一个对象是否为空对象的方法
+Object.keys(obj).length === 0
+
+
+混入mixin
+https://cn.vuejs.org/v2/api/#mixins

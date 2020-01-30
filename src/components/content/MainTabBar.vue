@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="main-tab-bar">
       <tab-bar>
           <tab-bar-item path="/home" activeColor="deepPink">
             <img slot="item-icon" src="@/assets/img/tabbar/home.svg" alt="">
@@ -22,7 +22,7 @@
             <div slot="item-text">我的</div>
           </tab-bar-item>
       </tab-bar>
-      <router-view/>
+
     </div>
 </template>
 
@@ -38,5 +38,8 @@
   }
 </script>
 
-<style>
+<style scoped>
+  .main-tab-bar{
+    z-index: 9;
+  }
 </style>
