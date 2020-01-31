@@ -18,6 +18,8 @@
       <detail-comments-info ref="comment" :comment-info="commentInfo"></detail-comments-info>
       <goods-list ref="recommend" :goods="recommends"></goods-list>
     </scroll>
+    <detail-bottom-bar @addCart="addCart"></detail-bottom-bar>
+    <back-top v-show="isShow" @click.native="backTop"></back-top>
 
   </div>
 
@@ -34,14 +36,15 @@
   import DetailParamInfo from "./childComponent/DetailParamInfo";
   import DetailCommentsInfo from "./childComponent/DetailCommentsInfo";
   import GoodsList from "../../components/content/goods/GoodsList";
-  import {itemListenerMixin} from "../../common/mixin";
+  import {itemListenerMixin,backTopMixin} from "../../common/mixin";
   import {debounce} from "../../common/utils";
-
+  import DetailBottomBar from "./childComponent/DetailBottomBar";
   export default {
     name: "Detail",
     components: {
       DetailSwipper, DetailNavBar, DetailBaseInfo,
-      DetailShopInfo, Scroll, DetailGoodsInfo, DetailParamInfo, DetailCommentsInfo, GoodsList
+      DetailShopInfo, Scroll, DetailGoodsInfo, DetailParamInfo, DetailCommentsInfo, GoodsList,
+      DetailBottomBar
     },
     data() {
       return {
@@ -55,7 +58,8 @@
         recommends: [],
         themeTopy: [],
         getThemeTopy: null,
-        currentIndex: 0
+        currentIndex: 0,
+        itemInfo:{}
       }
     },
     created() {
@@ -64,8 +68,10 @@
 
       //根据iid请求详细数据
       getDetail(this.iid).then(res => {
-        console.log(res);
+        // console.log(res);
         const data = res.result
+        this.itemInfo = data.itemInfo
+        // console.log(this.itemInfo);
         //1,获取顶部的轮播数据
         this.topImages = data.itemInfo.topImages
 
@@ -98,7 +104,7 @@
         this.themeTopy.push(this.$refs.params.$el.offsetTop)
         this.themeTopy.push(this.$refs.comment.$el.offsetTop)
         this.themeTopy.push(this.$refs.recommend.$el.offsetTop)
-        console.log(this.themeTopy)
+        // console.log(this.themeTopy)
       }, 500)
 
     },
@@ -147,6 +153,25 @@
 
         }
 
+        this.isShow = position.y < -1000 ? true : false
+
+      },
+      addCart(){
+        // console.log("加入购物车",this.iid);
+        //获取购物车需要展示的信息
+        const product = {}
+        product.image = this.topImages[0]
+        product.title = this.itemInfo.title
+        product.desc = this.itemInfo.desc
+        product.price = this.itemInfo.lowNowPrice
+        product.iid = this.iid
+        product.isCheck = true
+        //将商品添加到购物车中
+        // this.$store.commit("addCart",product);
+
+        this.$store.dispatch("addCart",product).then(res=>{
+          console.log(res);
+        })
 
       }
     },
@@ -159,7 +184,7 @@
     destroyed() {
       this.$bus.$off("itemImageLoad", this.itemImgListener)
     },
-    mixins: [itemListenerMixin]
+    mixins: [itemListenerMixin,backTopMixin]
   }
 </script>
 
@@ -173,7 +198,7 @@
 
   .content {
 
-    height: calc(100% - 44px);
+    height: calc(100% - 44px - 49px);
   }
 
   .detail-nav {

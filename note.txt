@@ -59,10 +59,11 @@ tabControl 的吸顶效果
   步骤：1，监听HomeSwipper中img的加载完成
        2，加载完成后发出事件，在home中获取正确的值
        3，在home页面再复制一份tabControl，就放到导航栏的下面。根据offsetTop的位置判断是否显示
-
 判断一个对象是否为空对象的方法
 Object.keys(obj).length === 0
 
-
 混入mixin
 https://cn.vuejs.org/v2/api/#mixins
+
+Toast
+提示窗

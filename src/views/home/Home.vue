@@ -39,8 +39,7 @@
   import GoodsList from "@/components/content/goods/GoodsList";
   import TabControl from "@/components/content/tabControl/TabControl";
   import Scroll from "@/components/common/scroll/Scroll";
-  import BackTop from "@/components/content/backTop/BackTop";
-  import {itemListenerMixin} from "../../common/mixin";
+  import {itemListenerMixin,backTopMixin} from "../../common/mixin";
 
   import {
     getHomeMutidata,
@@ -52,7 +51,7 @@
     components: {
       HomeFeatureView,
       HomeRecommendView,
-      NavBar, HomeSwipper, GoodsList, TabControl, Scroll, BackTop
+      NavBar, HomeSwipper, GoodsList, TabControl, Scroll
     },
     data() {
       return {
@@ -109,7 +108,7 @@
       //获取tabControl的OffsetTop
       // console.log(this.$refs.tabControl.$el);
     },
-    mixins:[itemListenerMixin],
+    mixins:[itemListenerMixin,backTopMixin],
     methods: {
       /**
        * 网络请求相关方法
@@ -140,9 +139,7 @@
         this.$refs.tabControl1.currentIndex = index;
         this.$refs.tabControl2.currentIndex = index;
       },
-      backTop() {
-        this.$refs.scroll.scrollTo(0, 0);
-      },
+
       contentScroll(position) {
         //判断backtop是否显示
         this.isShow = position.y < -1000 ? true : false
